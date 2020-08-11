@@ -23,17 +23,25 @@ FROM runtime
 
 ARG BUILD_DATE
 ARG VCS_REF
+ARG VCS_REF_FULL
+ARG VCS_COMMIT_LOG  
+ARG VCS_REPO
+ARG VCS_BRANCH
 
-LABEL build-date=$BUILD_DATE
-  name="TMC Cluster Autoscaler"
-  description="Simple webhook to scale a TMC provisioned cluster"
-  url="https://github.com/yogendra/tmc-cluster-autoscaler"
-  maintainer="Yogi Rampuria<yogendrarampuria@gmail.com>"
-  vcs-ref=$VCS_REF
+LABEL build-date=$BUILD_DATE \
+  name="TMC Cluster Autoscaler" \
+  description="Simple webhook to scale a TMC provisioned cluster" \
+  maintainer="Yogi Rampuria<yogendrarampuria@gmail.com>" \
+  url="https://github.com/yogendra/tmc-cluster-autoscaler" \
+  vcs-ref=$VCS_REF \
+  vcs-ref-full=$VCS_REF_FULL \
+  vcs-repo=$VCS_REPO \
+  vcs-branch=$VCS_BRANCH \
+  vcs-commit-log=$VCS_COMMIT_LOG
 
 EXPOSE 5000
 
 ENV TMC_API_TOKEN ""
-# ENV TMC_URL ""
+
 COPY . . 
 CMD ["./entrypoint.sh"]
