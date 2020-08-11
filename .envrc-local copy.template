@@ -1,0 +1,3 @@
+# Get token from your https://console.cloud.vmware.com/csp/gateway/portal/#/user/tokens
+export TMC_API_TOKEN="YOUR_TOKE_GOES_HERE"
+
