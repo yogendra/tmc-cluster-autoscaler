@@ -2,10 +2,9 @@
 
 This project implements a simple webhook to scale a tmc provisioned cluster
 
-
 ## How does this work?
 
-We monitor our clusters with wavefront. If you do not have, t could be any other monitoring system that 
+We monitor our clusters with wavefront. If you do not have, t could be any other monitoring system that
 
 ### Requirements
 
@@ -13,15 +12,16 @@ We monitor our clusters with wavefront. If you do not have, t could be any other
 - tmc account
 - tmc api token
 
-
 ## How to build
+
 - Dev build
 
 ```
-pip install
+make install
+```
 
 - Docker Build
-```
-docker build -t yogendra/tmc-cluster-autoscaler:latest .
-```
 
+```
+make package
+```
