@@ -2,17 +2,19 @@ VER := $(shell git log -n1 --format="%h")
 
 .PHONY: help
 
-default: package
+default: package-docker
+
 help:
 	@cat  README.md
 
 requirements:
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 install: requirements
-	
-test: install
+
+run: 
 	python3 server.py
+
 
 
 package: 
@@ -32,5 +34,10 @@ publish: package
 	@docker push yogendra/tmc-cluster-autoscaler:latest	
 	@docker push yogendra/tmc-cluster-autoscaler:${VER}
 
-run: 
-	python3 server.py
+test: package
+	docker run \
+		--rm \
+		-it \
+		--name tmc-cas-test \
+		-e TMC_API_TOKEN=${TMC_API_TOKEN} \
+		yogendra/tmc-cluster-autoscaler:latest
