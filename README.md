@@ -14,10 +14,11 @@ We monitor our clusters with wavefront. If you do not have, t could be any other
 
 ## How to build
 
-- Dev build
+- Dev build and Run
 
 ```
-make install
+make install -r requirements.txt
+python3 
 ```
 
 - Docker Build
