@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: tmc-cluster-autoscaler
+  name: tmc-cluster-autoscaler
+  namespace: tmc-cluster-autoscaler
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app: tmc-cluster-autoscaler
+  type: ClusterIP

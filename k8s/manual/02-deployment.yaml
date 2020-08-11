@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tmc-cluster-autoscaler
+  name: tmc-cluster-autoscaler
+  namespace: tmc-cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tmc-cluster-autoscaler
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: tmc-cluster-autoscaler
+    spec:
+      containers:
+        - name: tmc-cluster-autoscaler
+          image: yogendra/tmc-cluster-autoscaler:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+          httpGet:
+            path: /healthz
+            scheme: HTTP
+            port: 5000
+          initialDelaySeconds: 300
+          periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              scheme: HTTP
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          envFrom:
+            - secretRef:
+              name: "tmc-cluster-autoscaler"
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "250m"
+            limits:
+              memory: "200Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000
