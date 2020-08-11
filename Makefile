@@ -42,8 +42,8 @@ push: package
 	@docker push yogendra/tmc-cluster-autoscaler:latest-snapshot	
 	@docker push yogendra/tmc-cluster-autoscaler:${GIT_VER}
 
-publish: package publish
-	echo "Publise version"
+publish: package push
+	echo "Publish version"
 	@docker tag yogendra/tmc-cluster-autoscaler:latest-snapshot yogendra/tmc-cluster-autoscaler:latest
 	@docker tag yogendra/tmc-cluster-autoscaler:latest-snapshot yogendra/tmc-cluster-autoscaler:${VERSION}
 	@docker push yogendra/tmc-cluster-autoscaler:latest
