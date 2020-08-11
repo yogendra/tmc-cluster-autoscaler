@@ -1,0 +1,10 @@
+.direnv/
+.envrc
+.git
+.gitignore
+.python-version
+ci
+Dockerfile
+k8s
+Makefile
+README.md
