@@ -1,6 +1,6 @@
 apiVersion: v2
 name: tmc-cas
-description: A Helm chart for Kubernetes
+description: Tanzu Mission Control - Cluster Auto-scaler module
 
 # A chart can be either an 'application' or a 'library' chart.
 #
