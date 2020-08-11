@@ -45,7 +45,7 @@ spec:
               port: http
           envFrom:
             - secretRef:
-              name: {{ include "tmc-cas.fullname" . }}
+                name: {{ include "tmc-cas.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
