@@ -21,11 +21,13 @@ def healthz():
 def alert():
   logger.info("/alert request received")
   if request.method == 'POST':
+    logger.info(request.get_data())
     data=request.json
-    nodepool=data["cluster"]
-    cluster=data["nodepool"]
-    logger.info(f"Received alert for {cluster}/{nodepool}")
-    tmc.resize_cluster(cluster, nodepool, 3)
+    if data and "cluster" in data and "nodepool" in data:
+      nodepool=data["cluster"]
+      cluster=data["nodepool"]
+      logger.info(f"Received alert for {cluster}/{nodepool}")
+      tmc.resize_cluster(cluster, nodepool, 3)
     return '', 200
   return abort(400)
 
