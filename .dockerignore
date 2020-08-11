@@ -8,3 +8,4 @@ Dockerfile
 k8s
 Makefile
 README.md
+.envrc-local*
