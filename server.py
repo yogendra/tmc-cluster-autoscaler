@@ -14,7 +14,7 @@ def healthz():
   logger.info("/healths request received")
   if request.method == 'GET':
     logger.info("/healths request processing")
-    return jsonify({'method':'GET','status':'ok'}), 200
+    return jsonify({'method':'GET','status':'ok', "comment":"foo"}), 200
   
 
 @app.route('/alert', methods=['POST'])
