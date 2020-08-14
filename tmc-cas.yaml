@@ -1,0 +1,106 @@
+---
+# Source: tmc-cas/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cebuair-tmc-cas
+  labels:
+    helm.sh/chart: tmc-cas-0.1.0
+    app.kubernetes.io/name: tmc-cas
+    app.kubernetes.io/instance: cebuair-tmc-cas
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  TMC_API_TOKEN: "aDZ1NDY1NUxuZWwwR1JuZ0hjRGx5bVJ5NFA3bDdVWnFUdXBkNXR2VTd3M1ZnUHQ3Q2dzQlk1UXo5alhCMlZsNw=="
+---
+# Source: tmc-cas/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cebuair-tmc-cas
+  labels:
+    helm.sh/chart: tmc-cas-0.1.0
+    app.kubernetes.io/name: tmc-cas
+    app.kubernetes.io/instance: cebuair-tmc-cas
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: tmc-cas
+    app.kubernetes.io/instance: cebuair-tmc-cas
+---
+# Source: tmc-cas/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cebuair-tmc-cas
+  labels:
+    helm.sh/chart: tmc-cas-0.1.0
+    app.kubernetes.io/name: tmc-cas
+    app.kubernetes.io/instance: cebuair-tmc-cas
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tmc-cas
+      app.kubernetes.io/instance: cebuair-tmc-cas
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: tmc-cas
+        app.kubernetes.io/instance: cebuair-tmc-cas
+    spec:
+      serviceAccountName: default
+      securityContext: {}
+      containers:
+        - name: tmc-cas
+          securityContext: {}
+          image: "yogendra/tmc-cluster-autoscaler:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          envFrom:
+            - secretRef:
+                name: cebuair-tmc-cas
+          resources: {}
+---
+# Source: tmc-cas/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cebuair-tmc-cas
+  labels:
+    helm.sh/chart: tmc-cas-0.1.0
+    app.kubernetes.io/name: tmc-cas
+    app.kubernetes.io/instance: cebuair-tmc-cas
+    app.kubernetes.io/version: "1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "tmc-cas.cluster-1.poc.yogendra.me"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cebuair-tmc-cas
+              servicePort: 80
+---
+
