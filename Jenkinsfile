@@ -30,33 +30,11 @@ pipeline {
     //   }
     // }
     stage('Deploy') {
+      withKubeConfig([credentialsId: 'k8s-cluster-1']){
       steps{
         script {
           sh "kubectl apply -f tmc-cas.yaml"
         }
-      }
-    }
-  }
-}
-
-
-  
-pipeline {
-  environment {
-    registry = "cloudgeek007/devopspipeline"
-    registryCredential = 'dockerhub'
-  }
-  agent any
-  stages {
-    stage('Checkout'){
-      steps {
-        checkout scm
-      }
-    }
-    
-    stage('Cleanup') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }
