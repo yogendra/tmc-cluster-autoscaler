@@ -33,7 +33,9 @@ pipeline {
       steps{
         script {
           withKubeConfig([credentialsId: 'k8s-cluster-1']){
-            sh "kubectl apply -f tmc-cas.yaml"
+            sh "curl -L \"https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl\" -o /tmp/kubectl"
+            sh "chmod a+x /tmp/kubectl"
+            sh "/tmp/kubectl apply -f tmc-cas.yaml"
           }
         }
       } 
