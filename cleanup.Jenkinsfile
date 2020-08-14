@@ -10,26 +10,7 @@ pipeline {
         checkout scm
       }
     }
-    // stage('Building image') {
-    //   steps{
-    //     script {
-    //       imageName = registry + ":$BUILD_NUMBER"
-    //       context = "'./Day 2/Lab 03 - Part 1 - Containerising an App'"
-    //       dockerImage = docker.build(imageName, context)
-    //     }
-    //   }
-    // }
-    // stage ("Publish"){
-    //   steps {
-    //     script {
-    //       docker.withRegistry( '', registryCredential ) {
-    //         dockerImage.push()
-    //         dockerImage.push("latest")
-    //       }
-    //     }
-    //   }
-    // }
-    stage('Deploy') {
+    stage('Cleanup') {
       steps{
         script {
           withKubeConfig([credentialsId: 'k8s-cluster-1']){
