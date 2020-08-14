@@ -30,13 +30,13 @@ pipeline {
     //   }
     // }
     stage('Deploy') {
-      withKubeConfig([credentialsId: 'k8s-cluster-1']){
-        steps{
-          script {
+      steps{
+        script {
+          withKubeConfig([credentialsId: 'k8s-cluster-1']){
             sh "kubectl apply -f tmc-cas.yaml"
           }
         }
-      }
+      } 
     }
   }
 }
